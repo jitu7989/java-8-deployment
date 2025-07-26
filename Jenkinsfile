@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'openjdk:8-jdk'
-            args '-v /root/.m2:/root/.m2'
+            args '-v /root/.m2:/root/.m2 --privileged -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
@@ -34,7 +34,16 @@ pipeline {
 
     }
 
-    post {
+post {
+        always {
+            echo 'Pipeline completed'
+        }
+        success {
+            echo '✅ Build completed successfully!'
+        }
+        failure {
+            echo '❌ Build failed!'
+        }
         cleanup {
             cleanWs()
         }
