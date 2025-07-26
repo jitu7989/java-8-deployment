@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-company/your-java-service.git'
+                git branch: 'main', url: 'https://github.com/jitu7989/java-8-deployment.git'
             }
         }
         stage('Build') {
@@ -21,13 +21,13 @@ pipeline {
                 sh '''
                     echo "Building with Java ${JAVA_VERSION}"
                     java -version
-                    ./mvnw clean compile
+                    mvn clean install
                 '''
             }
         }
         stage('Package') {
             steps {
-                sh './mvnw package -DskipTests'
+                sh 'mvn package -DskipTests'
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
